@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Library Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body{margin:0;padding:22px;font-family:Poppins,system-ui;background:#0b1220;color:#e5e7eb;}
+    .wrap{max-width:1100px;margin:0 auto;}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .pill{padding:10px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);font-weight:900}
+    a{color:#93c5fd;text-decoration:none;font-weight:900}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.10);font-size:13px;text-align:left;vertical-align:top}
+    th{opacity:.85;text-transform:uppercase;letter-spacing:.03em;font-size:12px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="pill">Admin Dashboard — {{ user_name }}</div>
+      <div>
+        <a href="/admin/logout">Logout</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h3 style="margin:0;">Users</h3>
+        <div style="opacity:.75;font-size:13px;margin-top:6px;">All registered accounts</div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Name</th><th>Email</th><th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in users %}
+            <tr>
+              <td>{{ u.id }}</td>
+              <td>{{ u.name }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0;">Latest Book Entries (Last 20)</h3>
+        <div style="opacity:.75;font-size:13px;margin-top:6px;">Quick monitoring</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th><th>Member</th><th>Title</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in books %}
+            <tr>
+              <td>{{ b.date }}</td>
+              <td>{{ b.member_name }}</td>
+              <td>{{ b.book_title }}</td>
+              <td>{{ b.status }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

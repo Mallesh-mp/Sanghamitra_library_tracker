@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup | Library Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#fbfaf7;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --accent:#1f4b99;
+      --accent2:#0f766e;
+      --shadow: 0 12px 28px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      padding:28px;
+      font-family:'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1000px 520px at 12% 10%, rgba(31,75,153,.12), transparent 60%),
+        radial-gradient(900px 520px at 88% 0%, rgba(15,118,110,.14), transparent 55%),
+        var(--paper);
+      color:var(--ink);
+    }
+    .wrap{max-width:420px;margin:70px auto;}
+    .card{
+      background:var(--card);
+      border:1px solid rgba(229,231,235,.9);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .head{
+      padding:18px 18px 12px;
+      border-bottom:1px solid rgba(229,231,235,.9);
+      background: linear-gradient(90deg, rgba(15,118,110,.10), rgba(31,75,153,.08));
+    }
+    .head h1{margin:0;font-size:18px}
+    .head p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    form{padding:16px 18px 18px}
+    label{
+      display:block;
+      margin-top:12px;
+      font-weight:800;
+      font-size:12px;
+      color:#374151;
+    }
+    input{
+      width:100%;
+      margin-top:6px;
+      border:1px solid rgba(229,231,235,.95);
+      border-radius:12px;
+      padding:10px 11px;
+      outline:none;
+      background:#fff;
+      font-size:13px;
+    }
+    input:focus{
+      border-color:#93c5fd;
+      box-shadow:0 0 0 3px rgba(147,197,253,.35);
+    }
+    .btn{
+      margin-top:16px;
+      width:100%;
+      border:none;
+      border-radius:14px;
+      padding:12px 14px;
+      font-weight:900;
+      cursor:pointer;
+      color:white;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      box-shadow: 0 14px 30px rgba(31,75,153,.20);
+      transition:.15s ease;
+    }
+    .btn:hover{filter:brightness(.98); transform: translateY(-1px)}
+    .btn:active{transform: translateY(0px)}
+    .links{
+      padding:0 18px 18px;
+      text-align:center;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .links a{color:var(--accent); font-weight:800; text-decoration:none}
+    .msg{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      background: rgba(239,68,68,.10);
+      border:1px solid rgba(239,68,68,.25);
+      color:#991b1b;
+      font-weight:800;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="head">
+        <h1>Create Account</h1>
+        <p>Signup to use Library Tracker</p>
+      </div>
+
+      <form method="post" action="/signup">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="msg">{{ messages[0] }}</div>
+          {% endif %}
+        {% endwith %}
+
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="e.g. Mallesh" required>
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Min 8 characters" required>
+
+        <button class="btn" type="submit">Create Account</button>
+      </form>
+
+      <div class="links">
+        Already have an account? <a href="/login">Login</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

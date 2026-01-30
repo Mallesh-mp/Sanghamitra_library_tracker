@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login | Library Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body{margin:0;padding:28px;font-family:Poppins,system-ui;background:#0b1220;color:#e5e7eb;}
+    .wrap{max-width:420px;margin:70px auto;}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px;box-shadow:0 10px 25px rgba(0,0,0,.35)}
+    label{display:block;margin-top:12px;font-weight:700;font-size:13px}
+    input{width:100%;padding:10px 12px;margin-top:6px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:#fff;outline:none}
+    button{width:100%;margin-top:16px;padding:12px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f4b99,#0f766e);color:#fff;font-weight:900;cursor:pointer}
+    .msg{margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.25);color:#fecaca;font-weight:800;font-size:13px}
+    a{display:block;text-align:center;margin-top:12px;color:#93c5fd;text-decoration:none;font-weight:800}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h2 style="margin:0 0 6px;">Admin Login</h2>
+      <div style="opacity:.8;font-size:13px;">Only admin accounts can access the admin dashboard</div>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="msg">{{ messages[0] }}</div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" action="/admin/login">
+        <label>Email</label>
+        <input name="email" type="email" required>
+
+        <label>Password</label>
+        <input name="password" type="password" required>
+
+        <button type="submit">Login as Admin</button>
+      </form>
+
+      <a href="/login">Back to User Login</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Tracker</title>
+
+  <style>
+    :root{
+      --paper:#fbfaf7;
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+
+      --accent:#1f4b99;
+      --accent2:#0f766e;
+      --gold:#f59e0b;
+
+      --shadow: 0 12px 28px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      padding:26px;
+      color:var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1000px 520px at 12% 10%, rgba(31,75,153,.12), transparent 60%),
+        radial-gradient(900px 520px at 88% 0%, rgba(15,118,110,.14), transparent 55%),
+        radial-gradient(700px 460px at 55% 85%, rgba(245,158,11,.10), transparent 60%),
+        var(--paper);
+    }
+
+    .wrap{max-width:1050px;margin:0 auto;}
+    header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .mark{
+      width:44px;height:44px;border-radius:14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display:grid; place-items:center;
+      color:white; font-weight:900; letter-spacing:.04em;
+      box-shadow: 0 14px 30px rgba(31,75,153,.20);
+      position:relative;
+      overflow:hidden;
+    }
+    .mark:after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.38), transparent 45%);
+      transform: rotate(20deg);
+    }
+
+    h1{margin:0;font-size:22px}
+    .sub{margin:4px 0 0;color:var(--muted);font-size:13px}
+
+    nav{display:flex; gap:10px; align-items:center}
+    nav a{
+      text-decoration:none;
+      padding:10px 12px;
+      border:1px solid rgba(229,231,235,.9);
+      background: rgba(255,255,255,.75);
+      border-radius:999px;
+      color:var(--ink);
+      font-weight:800;
+      font-size:13px;
+      transition:.15s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    nav a:hover{
+      border-color:#c7d2fe;
+      transform: translateY(-1px);
+    }
+    .welcome-pill{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(229,231,235,.9);
+      background: rgba(255,255,255,.65);
+      font-weight:900;
+      font-size:13px;
+      color:#374151;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .dot{
+      width:9px;height:9px;border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid rgba(229,231,235,.9);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .card-head{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(229,231,235,.9);
+      background:
+        linear-gradient(90deg, rgba(31,75,153,.10), rgba(15,118,110,.08)),
+        linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.65));
+    }
+    .card-head h2{margin:0;font-size:15px}
+    .card-head p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    form{padding:14px 16px 16px}
+    label{
+      display:block;
+      margin-top:12px;
+      font-weight:900;
+      font-size:12px;
+      color:#374151;
+    }
+    input, select, textarea{
+      width:100%;
+      margin-top:6px;
+      border:1px solid rgba(229,231,235,.95);
+      border-radius:12px;
+      padding:10px 11px;
+      outline:none;
+      background:#fff;
+      font-size:13px;
+    }
+    textarea{min-height:82px;resize:vertical}
+    input:focus, select:focus, textarea:focus{
+      border-color:#93c5fd;
+      box-shadow:0 0 0 3px rgba(147,197,253,.35);
+    }
+
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+    .btn{
+      margin-top:14px;
+      width:100%;
+      border:none;
+      border-radius:14px;
+      padding:12px 14px;
+      font-weight:900;
+      cursor:pointer;
+      color:white;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 14px 30px rgba(31,75,153,.20);
+      transition:.15s ease;
+    }
+    .btn:hover{filter:brightness(.98); transform: translateY(-1px)}
+    .btn:active{transform: translateY(0px)}
+
+    .history{margin-top:16px}
+
+    .toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 16px;
+      border-bottom:1px solid rgba(229,231,235,.9);
+      background: rgba(255,255,255,.75);
+    }
+    .toolbar h2{margin:0;font-size:15px}
+    .hint{color:var(--muted);font-size:12px}
+    .meta{display:flex; align-items:center; gap:10px}
+
+    .search{
+      width:330px;
+      max-width:48vw;
+      border-radius:999px;
+      padding:9px 12px;
+      border:1px solid rgba(229,231,235,.95);
+      background:white;
+    }
+    .count{
+      font-weight:900;
+      font-size:12px;
+      color:var(--muted);
+      padding:7px 10px;
+      border-radius:999px;
+      background: rgba(245,158,11,.10);
+      border:1px solid rgba(245,158,11,.25);
+      white-space:nowrap;
+    }
+
+    .table-wrap{padding:12px 12px 16px}
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      border:1px solid rgba(229,231,235,.9);
+      border-radius:14px;
+      overflow:hidden;
+      background:#fff;
+    }
+    th, td{
+      text-align:left;
+      padding:11px 10px;
+      border-bottom:1px solid rgba(229,231,235,.9);
+      font-size:13px;
+      vertical-align:top;
+    }
+    th{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+      color:#4b5563;
+      background: linear-gradient(180deg, #f8fafc, #f3f4f6);
+    }
+    tr:last-child td{border-bottom:none}
+    tbody tr:hover{background: rgba(31,75,153,.04)}
+
+    .muted{color:var(--muted)}
+    .pill{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:12px;
+      border:1px solid rgba(229,231,235,.9);
+      white-space:nowrap;
+      align-items:center;
+      gap:6px;
+    }
+    .pill.borrowed{
+      background: rgba(245,158,11,.10);
+      color:#92400e;
+      border-color: rgba(245,158,11,.28);
+    }
+    .pill.returned{
+      background: rgba(16,185,129,.10);
+      color:#065f46;
+      border-color: rgba(16,185,129,.28);
+    }
+
+    .action-btn{
+      border:none;
+      border-radius:12px;
+      padding:8px 10px;
+      font-weight:900;
+      cursor:pointer;
+      background:#ef4444;
+      color:white;
+    }
+    .action-btn:hover{filter:brightness(.95)}
+
+    .empty{
+      padding:26px;
+      text-align:center;
+      color:var(--muted);
+      font-weight:900;
+    }
+
+    @media (max-width: 860px){
+      .row{grid-template-columns:1fr}
+      .meta{flex-direction:column; align-items:stretch}
+      .search{width:100%; max-width:100%}
+      nav{flex-wrap:wrap; justify-content:flex-end}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="mark">LIB</div>
+        <div>
+          <h1>Library Tracker</h1>
+          <div class="sub">Borrow / Return log with history and analytics</div>
+          <div class="sub"><strong>Welcome, {{ user_name }}</strong></div>
+        </div>
+      </div>
+
+      <nav>
+        <span class="welcome-pill"><span class="dot"></span>{{ user_name }}</span>
+
+        {% if session.get('role') == 'admin' %}
+          <a href="/admin">🛠 Admin</a>
+        {% endif %}
+
+        <a href="/analytics">📊 Analytics</a>
+        <a href="/logout">🚪 Logout</a>
+      </nav>
+    </header>
+
+    <!-- FORM ON TOP -->
+    <div class="card">
+      <div class="card-head">
+        <h2>New Transaction</h2>
+        <p>Add a borrowing or return entry.</p>
+      </div>
+
+      <form action="/add" method="post">
+        <label for="member_name">Member Name</label>
+        <input id="member_name" name="member_name" type="text" placeholder="e.g. Mallesh" required />
+
+        <div class="row">
+          <div>
+            <label for="date">Date</label>
+            <input id="date" name="date" type="date" required />
+          </div>
+          <div>
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+              <option value="Borrowed">Borrowed</option>
+              <option value="Returned">Returned</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="book_title">Book Title</label>
+        <input id="book_title" name="book_title" type="text" placeholder="e.g. Clean Code" required />
+
+        <label for="author">Author</label>
+        <input id="author" name="author" type="text" placeholder="e.g. Robert C. Martin" required />
+
+        <div class="row">
+          <div>
+            <label for="genre">Genre</label>
+            <input id="genre" name="genre" type="text" placeholder="e.g. Programming" required />
+          </div>
+          <div>
+            <label for="days">Loan Days</label>
+            <input id="days" name="days" type="number" placeholder="e.g. 14" />
+          </div>
+        </div>
+
+        <label for="book_code">Book ID / ISBN (optional)</label>
+        <input id="book_code" name="book_code" type="text" placeholder="e.g. 9780132350884" />
+
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" name="notes" placeholder="e.g. Reserved / damaged cover / special edition..."></textarea>
+
+        <button class="btn" type="submit">Save</button>
+      </form>
+    </div>
+
+    <!-- HISTORY BELOW -->
+    <div class="card history">
+      <div class="toolbar">
+        <div>
+          <h2>History</h2>
+          <div class="hint">Latest entries first</div>
+        </div>
+
+        <div class="meta">
+          <input id="searchBox" class="search" type="text" placeholder="Search member / title / author..." />
+          <div class="count">{{ books|length }} records</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        {% if books and books|length > 0 %}
+        <table id="historyTable">
+          <thead>
+            <tr>
+              <th>Member</th>
+              <th>Date</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Genre</th>
+              <th>Status</th>
+              <th>Days</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in books %}
+            <tr>
+              <td><strong>{{ b.member_name }}</strong></td>
+              <td class="muted">{{ b.date }}</td>
+              <td>{{ b.book_title }}</td>
+              <td class="muted">{{ b.author }}</td>
+              <td class="muted">{{ b.genre }}</td>
+              <td>
+                {% if b.status == "Borrowed" %}
+                  <span class="pill borrowed">Borrowed</span>
+                {% else %}
+                  <span class="pill returned">Returned</span>
+                {% endif %}
+              </td>
+              <td class="muted">{{ b.days }}</td>
+
+              <td>
+                {% if b.user_id == session.get('user_id') %}
+                  <form method="post" action="/delete/{{ b.id }}" onsubmit="return confirm('Delete this entry?');">
+                    <button class="action-btn" type="submit">Delete</button>
+                  </form>
+                {% else %}
+                  <span class="muted">—</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <div class="empty">No entries yet. Add your first transaction above 👆</div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const searchBox = document.getElementById("searchBox");
+    const table = document.getElementById("historyTable");
+
+    if (searchBox && table) {
+      searchBox.addEventListener("input", () => {
+        const q = searchBox.value.toLowerCase().trim();
+        const rows = table.querySelectorAll("tbody tr");
+        rows.forEach((row) => {
+          row.style.display = row.innerText.toLowerCase().includes(q) ? "" : "none";
+        });
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📊 Library Analytics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --card:#ffffff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --radius:18px;
+    }
+    body{
+      margin:0;
+      padding:28px;
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--ink);
+      background: radial-gradient(900px 500px at 20% 10%, #f6f3ff, transparent 60%),
+                  radial-gradient(900px 500px at 80% 0%, #eef7ff, transparent 55%),
+                  #fafafa;
+    }
+    .wrap{max-width:980px;margin:0 auto;}
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      margin-bottom:18px;
+    }
+    h1{margin:0;font-size:20px}
+    .sub{margin:4px 0 0;color:var(--muted);font-size:13px}
+    a{
+      text-decoration:none;
+      padding:10px 14px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--ink);
+      font-weight:600;
+      background: rgba(255,255,255,0.7);
+    }
+    a:hover{border-color:#c7d2fe}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+    .stat{
+      font-size:13px;color:var(--muted);
+    }
+    .val{
+      font-size:26px;font-weight:800;margin-top:4px;
+    }
+    .chart-card{
+      margin-top:14px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+    canvas{
+      max-width:620px;
+      margin: 0 auto;
+      display:block;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Library Analytics</h1>
+        <div class="sub">Overview of borrowing activity and genre distribution</div>
+      </div>
+      <div>
+        <a href="/">← Back</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <div class="stat">Total Entries</div>
+        <div class="val">{{ total_entries }}</div>
+      </div>
+
+      <div class="card">
+        <div class="stat">Borrowed</div>
+        <div class="val">{{ borrowed_count }}</div>
+      </div>
+
+      <div class="card">
+        <div class="stat">Returned</div>
+        <div class="val">{{ returned_count }}</div>
+      </div>
+
+      <div class="card">
+        <div class="stat">Total Loan Days Recorded</div>
+        <div class="val">{{ total_days }}</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3 style="margin:0 0 8px;">Genre Distribution</h3>
+      <div class="sub" style="margin-bottom:10px;">Based on the genres you entered</div>
+      <canvas id="genreChart" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+      // IMPORTANT: safe prevents Jinja escaping
+      const labels = {{ labels|safe }};
+      const counts = {{ counts|safe }};
+
+      const ctx = document.getElementById('genreChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Genre Count',
+            data: counts
+          }]
+        },
+        options: { responsive: true }
+      });
+    </script>
+  </div>
+</body>
+</html>
